@@ -1,0 +1,50 @@
+题目大意：
+给一个整数，求这个整数是不是两个质数的乘积
+输入：
+输入一个整数，整数不会超过32int
+输出：
+如果这个整数是两个质数的乘积，则输出这两个质数（小的在前面，大的在后面），否则输出NO
+参考代码：
+#include <iostream>
+#include <fstream>
+#include <limits>
+#include <cstring>
+#include <cmath>
+
+using namespace std;
+
+bool IsPrime(int num)
+{
+    if (num == 1) {
+        return false;
+    }
+
+    for (int i = 2; i < num; i++) {
+        if (num % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main()
+{
+    int n;
+    ifstream in("input.txt");
+    ofstream out("result.txt");
+    while (in >> n) {
+        bool flag = true;
+        int loopTime = sqrt(n);
+        for (int i = 1; i <= loopTime; i++) {
+            if ((i * (n / i) == n) && IsPrime(i) && IsPrime(n / i) && (i != n / i)) {
+                flag = false;
+                out << min(i, n / i) << ' ' << max(i, n / i) << endl;
+                break;
+            }
+        }
+        if (flag) {
+            out << "NO" << endl;
+        }
+    }
+    return 0;
+}
